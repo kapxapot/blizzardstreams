@@ -1,0 +1,123 @@
+auth_tokens:
+  table: auth_tokens
+  private:
+    - id
+    - user_id
+    - token
+    - expires_at
+
+games:
+  table: games
+  api: full
+  name_field: name
+  sort: name
+  default: 1
+  public:
+    - id
+    - name
+  private:
+    - parent_id
+    - twitch_name
+    - alias
+    - icon
+    - autotags
+
+languages:
+  table: languages
+  api: full
+  name_field: name
+  sort: position
+  default: 1
+  public:
+    - id
+    - name
+    - name_en
+    - alias
+    - position
+    - created_at
+    - created_by
+    - updated_at
+    - updated_by
+
+menus:
+  table: menus
+  api: full
+  name_field: text
+  sort: created_at
+  reverse: true
+  private:
+    - id
+    - link
+    - text
+    - position
+    - created_at
+    - updated_at
+
+menu_items:
+  table: menu_items
+  api: full
+  name_field: text
+  sort: position
+  private:
+    - id
+    - menu_id
+    - link
+    - text
+    - position
+    - created_at
+    - updated_at
+
+roles:
+  table: roles
+  api: full
+  name_field: name
+  sort: name
+  public:
+    - id
+    - name
+    - tag
+
+streams:
+  table: streams
+  api: full
+  name_field: title
+  sort: created_at
+  reverse: true
+  public:
+    - id
+    - stream_id
+    - stream_alias
+    - title
+    - description
+    - created_at
+    - created_by
+    - updated_at
+    - updated_by
+    - tags
+    - language_id
+    - game_id
+  private:
+    - published
+    - published_at
+
+stream_stats:
+  table: stream_stats
+
+tags:
+  table: tags
+
+users:
+  table: users
+  api: full
+  name_field: login
+  sort: created_at
+  reverse: true
+  public:
+    - id
+    - login
+    - name
+    - role_id
+    - created_at
+    - updated_at
+  private:
+    - email

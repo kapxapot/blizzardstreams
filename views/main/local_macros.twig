@@ -1,0 +1,56 @@
+{% macro panel(context, title, body, footer = null) %}
+	{% import _self as m %}
+	<div class="panel panel-primary">
+		{{ m.panel_header(context, title) }}
+	  	<div class="panel-body">
+	  		{{ body }}
+	    </div>
+	    {% if footer %}
+		    <div class="panel-footer">
+		    	{{ footer }}
+		    </div>
+	    {% endif %}
+	</div>
+{% endmacro %}
+
+{% macro panel_header(context, title = null, data = null) %}
+	{% import _self as m %}
+	{{ m.panel_bare_header(context, title ?? context.title, data) }}
+	{{ m.breadcrumbs(context, title ?? context.title, data) }}
+{% endmacro %}
+
+{% macro panel_bare_header(context, title, data = null) %}
+	<div class="panel-heading panel-title heading-{{ context.game.alias }}">
+	    {% if context.game %}
+		    <i class="game-icon icon-{{ context.game.alias }}" title="{{ context.game.name }}"></i>
+		{% endif %}
+		<header>
+			{% if data.url %}
+				<a href="{{ data.url }}">{{ title|raw }}</a>
+			{% else %}
+				<span>
+					{{ title|raw }}
+					{% if not (data.published ?? true) %}
+						<i class="fa fa-eye-slash" title="Не опубликовано!"></i>
+					{% endif %}
+				</span>
+			{% endif %}
+			{% if data.subtitle %}
+				<small>{{ data.subtitle }}</small>
+			{% endif %}
+		</header>
+		{% if data.buttons %}
+			<div class="panel-title-buttons">
+				{% for b in data.buttons %}
+					{{ b|raw }}
+				{% endfor %}
+			</div>
+		{% endif %}
+	</div>
+{% endmacro %}
+
+{% macro breadcrumbs(context, title, data = null) %}
+	{% import 'main/macros.twig' as m %}
+	{% set items = context.breadcrumbs %}
+	{{ m.breadcrumbs(context, items, data.bc_title ?? title) }}
+{% endmacro %}

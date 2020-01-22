@@ -1,0 +1,39 @@
+{% extends 'main/layout.twig' %}
+
+{% import 'main/macros.twig' as m %}
+{% import 'main/local_macros.twig' as lm %}
+
+{% if can('streams', 'create') %}
+    {% set sidebar_buttons = [ m.create_button('streams', 'Добавить стрим') ] %}
+{% endif %}
+
+{% block content %}
+	<div class="panel panel-primary panel--nav">
+	  	<div class="panel-body panel-body--nopad text-center">
+			<ul class="nav nav-pills" role="tablist">
+		  		{% for g in groups %}
+		  			{{ m.tab(g.id, g.title ?? g.label, loop.first, g.label) }}
+				{% endfor %}
+			</ul>
+	    </div>
+	</div>
+
+	<div class="tab-content">
+		{% for g in groups %}
+			<div role="tabpanel" class="tab-pane fade{% if loop.first %} in active{% endif %}" id="{{ g.id }}">
+				{% if g.streams|length > 0 %}
+				    {% for part in g.streams %}
+                        {% include 'components/streams.twig' with { 'streams': part } only %}
+                    {% endfor %}
+				{% else %}
+                    <div class="panel panel-primary mb-1">
+  	                    <div class="panel-body nostreams">
+						    <p>No recent broadcasts.</p>
+						    <p>{{ random(['There is no cow level', 'Hell, it\'s about time to stream', 'The cavalry hasn\'t arrived', 'Stay awhile and listen', 'You require more streams', 'Zug-zug', 'Show me the money', 'Trust no one']) }}.</p>
+                	    </div>
+                	</div>
+				{% endif %}
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

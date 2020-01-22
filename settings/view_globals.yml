@@ -1,0 +1,46 @@
+site_name: Blizzard Streams
+site_bare_url: bs.warcry.ru
+site_url: 'http://bs.warcry.ru'
+cool_site_url: '//bs.warcry.ru'
+site_description: 'Overwatch, Hearthstone, World of Warcraft, StarCraft and Heroes of the Storm official streams'
+short_site_description: 'Overwatch, Hearthstone, WoW, HotS official streams'
+twitter_card_image: 'http://bs.warcry.ru/images/logo.png'
+touch_icon: 'http://bs.warcry.ru/images/logo.png'
+contact_email: team[dot]com[at]warcry[dot]ru
+copyright_from: 2018
+admin_copyright_from: 2018
+site_keywords: Blizzard, Blizzard Entertainment, streams, Twitch, Warcraft, WoW, World of Warcraft, Diablo, Diablo 2, Diablo 3, StarCraft, StarCraft 2, Overwatch, HotS, Heroes of the Storm, Hearthstone
+lang: en
+
+no_search: true
+no_usernav: true
+with_auth: false
+
+# folders for Twig only
+folders:
+  global: {PLASTICODE_PUBLIC_PATH}
+  local: {SITE_PUBLIC_PATH}
+
+mde: true
+
+disqus_alias: blizzardstreams
+google_analytics_id: UA-119153352-1
+twitter_alias: BlizzardStreams
+
+angular:
+  app: bsApp
+  ctrl: bsCtrl
+
+admin_menu:
+  - streams
+  - group:
+      title: Сайт
+      items:
+        - users
+        - roles
+        - menus
+  - group:
+      title: Справочники
+      items:
+        - games
+        - languages

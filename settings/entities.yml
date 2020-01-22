@@ -1,0 +1,284 @@
+games:
+
+  name_gen: игры
+  name_accus: игру
+  title: Игры
+
+  columns:
+    id:
+      name: id
+      attributes: [ readonly ]
+
+    pic:
+      name: Иконка
+      template: >
+        '<img src="' + row.icon + '" width="50">'
+      attributes: [ no_sort, readonly ]
+
+    name:
+      name: Название
+    
+    parent_id:
+      name: Родительская игра
+      entity: games
+      dropdown_template: '{{%item%.select_title}}'
+      attributes: [ nullable, hidden ]
+
+    twitch_name:
+      name: Название на Twitch
+      attributes: [ nullable, hidden ]
+      tooltip: 'Укажите, если отличается от названия игры.'
+
+    icon:
+      name: Иконка
+      type: site_url
+      attributes: [ nullable, hidden, no_sort ]
+
+    alias:
+      name: Алиас
+      attributes: [ nullable ]
+
+    autotags:
+      name: Автотеги
+      attributes: [ nullable, hidden ]
+
+
+languages:
+
+  name_gen: языка
+  name_accus: язык
+  title: Языки
+
+  columns:
+    id:
+      name: id
+      attributes: [ readonly ]
+
+    name:
+      name: Название
+
+    name_en:
+      name: Английское название
+      attributes: [ hidden ]
+
+    alias:
+      name: Алиас
+
+    position:
+      name: Позиция
+      type: number
+      default: 1
+
+    created_by_name:
+      name: Автор
+      attributes: [ readonly ]
+    
+    created_at:
+      name: Дата создания
+      type: date
+      attributes: [ readonly ]
+
+
+menus:
+
+  name_gen: меню
+  name_accus: меню
+  title: Меню
+
+  delete_extra_message: " ' + i.text + ' (со всеми элементами)' + '"
+
+  columns:
+    id:
+      name: id
+      attributes: [ readonly ]
+
+    link:
+      name: Ссылка
+      type: site_url
+      template: >
+        '<a href="' + row.link + '">' + row.text + '</a>'
+
+    text:
+      name: Текст
+      attributes: [ hidden ]
+
+    position:
+      name: Позиция
+      type: number
+      default: 1
+    
+    created_at:
+      name: Дата создания
+      type: date
+      attributes: [ readonly ]
+
+    menu_items:
+      name: Подменю
+      template: >
+        '<a href="menus/' + row.id + '/menu_items"><button type="button" class="btn btn-success btn-pad"><span class="glyphicon glyphicon-align-justify" title="Редактировать элементы меню"></span></button></a>'
+      attributes: [ no_sort, readonly ]
+
+
+menu_items:
+
+  name_gen: элемента меню
+  name_accus: элемент меню
+  title: Элементы меню
+
+  columns:
+    id:
+      name: id
+      attributes: [ readonly ]
+    
+    link:
+      name: Ссылка
+      type: site_url
+      template: >
+        '<a href="' + row.link + '">' + row.text + '</a>'
+
+    text:
+      name: Текст
+      attributes: [ hidden ]
+
+    position:
+      name: Позиция
+      type: number
+      default: 1
+    
+    created_at:
+      name: Дата создания
+      type: date
+      attributes: [ readonly ]
+
+
+roles:
+
+  name_gen: роли
+  name_accus: роль
+  title: Роли
+  
+  columns:
+    id:
+      name: id
+      attributes: [ readonly ]
+    
+    name:
+      name: Название
+
+    tag:
+      name: Тег
+
+
+streams:
+
+  name_gen: стрима
+  name_accus: стрим
+  title: Стримы
+
+  columns:
+    id:
+      name: id
+      attributes: [ readonly ]
+
+    title:
+      name: Название
+      template: >
+        ((row.published == 1) ? '<a href="' + row.page_url + '">' + row.title + '</a>' : row.title)
+    
+    language_id:
+      name: Язык
+      entity: languages
+    
+    game_id:
+      name: Игра
+      entity: games
+      dropdown_template: '{{%item%.select_title}}'
+      attributes: [ nullable ]
+
+    stream_id:
+      name: Код
+      attributes: [ hidden ]
+      prefix: '//twitch.tv/'
+      #tooltip: Уникальный идентификатор стрима http://twitch.tv/{код}.
+
+    stream_alias:
+      name: Алиас
+      access: publish
+      tooltip: Оставьте пустым, если совпадает с кодом.
+      attributes: [ nullable, hidden ]
+      prefix: '//blizzardstreams.com/'
+
+    description:
+      name: Описание
+      type: html
+      attributes: [ nullable, hidden ]
+
+    tags:
+      name: Теги
+      attributes: [ nullable, hidden ]
+      access: publish
+      tooltip: Через запятую.
+
+    published:
+      name: Опубликован
+      form_name: Опубликовать
+      type: bool
+      access: publish
+
+    published_at:
+      name: Дата публикации
+      type: datetime-local
+      attributes: [ nullable, hidden ]
+      access: publish
+      tooltip: Оставьте пустой для автозаполнения.
+
+    created_by_name:
+      name: Автор
+      attributes: [ readonly ]
+    
+    created_at:
+      name: Дата создания
+      type: date
+      attributes: [ readonly ]
+
+
+users:
+
+  name_gen: пользователя
+  name_accus: пользователя
+  title: Пользователи
+
+  columns:
+    id:
+      name: id
+      attributes: [ readonly ]
+
+    login:
+      name: Логин
+      template: >
+        row.login + (row.name ? ' (' + row.name + ')' : '')
+
+    name:
+      name: Отображаемое имя
+      attributes: [ nullable, hidden ]
+      tooltip: По умолчанию совпадает с логином.
+
+    email:
+      name: E-mail
+      type: email
+
+    role_id:
+      name: Роль
+      entity: roles
+      default: 3
+
+    password:
+      name: Пароль
+      type: password
+      tooltip: Введите пароль, если хотите его изменить. Иначе оставьте поле пустым.
+      attributes: [ nullable, hidden, readonly, on_form ]
+
+    created_at:
+      name: Дата регистрации
+      type: date
+      attributes: [ readonly ]

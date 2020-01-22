@@ -1,0 +1,38 @@
+{% if streams|length > 0 %}
+    {% import 'macros.twig' as gm %}
+    <div class="flex-wrapper streams mb-2">
+    	{% for s in streams %}
+    		<div class="flex-item card{% if not s.remote_online and not s.remote_logo %} stream--no-logo{% endif %}">
+    		    {% if s.remote_online and s.large_img_url %}
+    		    	<div class="overlay-wrapper stream-image">
+    			    	<a href="{{ s.page_url }}">
+    			    		<img class="card-image" src="{{ s.large_img_url }}" />
+    			    	</a>
+    		    	</div>
+    		    {% endif %}
+    			<div class="card-body flex">
+			        {% if not s.remote_online %}
+			            {% if s.remote_logo %}
+					        <img src="{{ s.remote_logo }}" class="card-body__image-left" />
+					    {% else %}
+					        <img src="{{ s.game.icon }}" class="card-body__image-left card-body__image-left--icon" />
+				        {% endif %}
+			        {% endif %}
+				    <div>
+    		    		<div class="card-body__title"><a href="{{ s.page_url }}">{{ s.title }}</a></div>
+    	    			{% if s.remote_status %}
+    			    		{% if s.remote_online %}
+    			    		    <div class="card-body__number">{{ s.remote_viewers }} <span class="card-body__number__label">viewer{% if s.remote_viewers != 1 %}s{% endif %}</span></div>
+    			    		{% else %}
+    			    			<div class="card-body__action">{{ s.remote_online_ago }}</div>
+    			    		{% endif %}
+    			    		<div class="card-body__status mt-1">{{ s.remote_status }}</div>
+    			    	{% else %}
+    			    	    <div class="card-body__action" title="never been online yet">zzZzZz...</div>
+    			    	{% endif %}
+				    </div>
+    			</div>
+    		</div>
+    	{% endfor %}
+    </div>
+{% endif %}
